@@ -42,7 +42,7 @@
             '<div class="udx-content__list"></div>' +
         '</div>';
 
-    var STYLE_HTML = '<style>' +
+    var STYLE_HTML = '<style id="ultradox-style">' +
         '.udx-content{position:relative;width:100%;height:100%;}' +
         '.udx-content__head{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;padding:14px 20px;background:linear-gradient(rgba(0,0,0,.55),transparent);}' +
         '.udx-content__cats{display:flex;align-items:center;}' +
@@ -71,9 +71,6 @@
             component: 'ultradox'
         };
 
-        L.Template.add('ultradox_content', CONTENT_HTML);
-        L.Template.add('ultradox_style', STYLE_HTML);
-
         L.Component.add('ultradox', Component);
 
         function addMenu() {
@@ -91,7 +88,7 @@
                 L.Activity.push({ url: '', title: t, component: 'ultradox', page: 1, category: 'serial' });
             });
             $('.menu .menu__list').eq(0).append(button);
-            $('body').append(L.Template.get('ultradox_style', {}, true));
+            if (!$('#ultradox-style').length) $('body').append(STYLE_HTML);
         }
 
         if (window.appready) addMenu();
@@ -304,7 +301,7 @@
 
             if (!built) {
                 built = true;
-                html.append(L.Template.js('ultradox_content'));
+                html.append($(CONTENT_HTML));
 
                 scroll = new Lampa.Scroll({ mask: true, over: true });
                 scroll.onEnd = (function () { this.next(); }).bind(this);
